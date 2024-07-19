@@ -1,0 +1,25 @@
+1. npx create-codeceptjs TestCodeceptjs, cd TestCodeceptjs 
+2. npx codeceptjs init
+3. Tạo Test Case: npx codeceptjs gt
+4. Chạy test: npx codeceptjs run --steps
+5. Cài đặt UI: npm i @codeceptjs/ui --save
+6. Chạy UI: npm run codeceptjs:ui
+7. Cài đặt OpenAI: npm i openai
+8. Thêm API provider trong file codecept.conf.js: 
+
+ai: {
+  request: async (messages) => {
+    const OpenAI = require('openai');
+    const openai = new OpenAI({ apiKey: process.env['OPENAI_API_KEY'] })
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo-0125',
+      messages,
+    });
+    
+    return completion?.choices[0]?.message?.content;
+  }
+}
+
+9. Chạy test với AI: npx codeceptjs run --ai
+API KEY: sk-codeceptjs-ZabAFItBxttTnrsIlc0iT3BlbkFJBO6qO4onpo5IPYIDAexm
